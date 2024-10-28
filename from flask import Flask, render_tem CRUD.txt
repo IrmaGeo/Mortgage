@@ -1,0 +1,128 @@
+from flask import Flask, render_template, request, flash, redirect, url_for
+import mysql.connector
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Needed for flash messages
+
+# MySQL connection setup
+mydb = mysql.connector.connect(
+    host=os.getenv('DATABASE_HOST'),
+    user=os.getenv('DATABASE_USER'),
+    password=os.getenv('DATABASE_PASSWORD'),
+    database=os.getenv('DATABASE_NAME')
+)
+
+mycursor = mydb.cursor()
+
+# 1. Read: Home route to list all customers
+@app.route('/')
+def index():
+    mycursor.execute("SELECT * FROM customer")
+    data = mycursor.fetchall()
+    return render_template('index.html', data=data)
+
+# 2. Create: Route to add a new customer
+@app.route('/add_customer', methods=['GET', 'POST'])
+def add_customer():
+    if request.method == 'POST':
+        # Retrieve form data
+        customer_data = (
+            request.form['first_name'],
+            request.form['middle_name'],
+            request.form['last_name'],
+            request.form['street_number'],
+            request.form['street_name'],
+            request.form['apt_number'],
+            request.form['city'],
+            request.form['state'],
+            request.form['country'],
+            request.form['zip_code'],
+            request.form['phone_number'],
+            request.form['email_address'],
+            request.form['date_of_birth'],
+            request.form['citizen_status'],
+            request.form['status'],
+            request.form['user_ID']
+        )
+        
+        # SQL Insert query
+        sql = """
+            INSERT INTO customer (
+                first_name, middle_name, last_name, street_number, street_name, apt_number,
+                city, state, country, zip_code, phone_number, email_address, date_of_birth,
+                citizen_status, status, user_id
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        
+        try:
+            mycursor.execute(sql, customer_data)
+            mydb.commit()
+            flash('Customer added successfully!', 'success')
+            return redirect(url_for('index'))
+        except mysql.connector.Error as err:
+            flash(f'Error adding customer: {err}', 'danger')
+    return render_template('add_customer.html')
+
+# 3. Update: Route to update an existing customer
+@app.route('/update_customer/<int:customer_id>', methods=['GET', 'POST'])
+def update_customer(customer_id):
+    if request.method == 'POST':
+        # Get updated data from the form
+        updated_data = (
+            request.form['first_name'],
+            request.form['middle_name'],
+            request.form['last_name'],
+            request.form['street_number'],
+            request.form['street_name'],
+            request.form['apt_number'],
+            request.form['city'],
+            request.form['state'],
+            request.form['country'],
+            request.form['zip_code'],
+            request.form['phone_number'],
+            request.form['email_address'],
+            request.form['date_of_birth'],
+            request.form['citizen_status'],
+            request.form['status'],
+            customer_id
+        )
+        
+        # SQL Update query
+        sql = """
+            UPDATE customer SET first_name = %s, middle_name = %s, last_name = %s,
+            street_number = %s, street_name = %s, apt_number = %s, city = %s, state = %s,
+            country = %s, zip_code = %s, phone_number = %s, email_address = %s,
+            date_of_birth = %s, citizen_status = %s, status = %s WHERE customer_id = %s
+        """
+        
+        try:
+            mycursor.execute(sql, updated_data)
+            mydb.commit()
+            flash('Customer updated successfully!', 'success')
+            return redirect(url_for('index'))
+        except mysql.connector.Error as err:
+            flash(f'Error updating customer: {err}', 'danger')
+    
+    # Fetch current customer data for GET request
+    mycursor.execute("SELECT * FROM customer WHERE customer_id = %s", (customer_id,))
+    customer = mycursor.fetchone()
+    return render_template('update_customer.html', customer=customer)
+
+# 4. Delete: Route to delete a customer
+@app.route('/delete_customer/<int:customer_id>', methods=['POST'])
+def delete_customer(customer_id):
+    try:
+        mycursor.execute("DELETE FROM customer WHERE customer_id = %s", (customer_id,))
+        mydb.commit()
+        flash('Customer deleted successfully!', 'success')
+    except mysql.connector.Error as err:
+        flash(f'Error deleting customer: {err}', 'danger')
+    return redirect(url_for('index'))
+
+if __name__ == '__main__':
+    app.run(debug=True)
