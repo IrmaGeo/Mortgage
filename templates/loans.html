@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Loans</h1>
+<a href="{{ url_for('add_loan_route') }}" class="btn btn-primary">Add New Loan</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Loan ID</th>
+            <th>Customer ID</th>
+            <th>Amount</th>
+            <th>Term</th>
+            <th>Interest Rate</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for loan in loans %}
+        <tr>
+            <td>{{ loan[0] }}</td>
+            <td>{{ loan[1] }}</td>
+            <td>{{ loan[2] }}</td>
+            <td>{{ loan[3] }}</td>
+            <td>{{ loan[4] }}</td>
+            <td>{{ loan[5] }}</td>
+            <td>
+                <a href="{{ url_for('update_loan_route', loan_id=loan[0]) }}" class="btn btn-sm btn-warning">Edit</a>
+                <form action="{{ url_for('delete_loan_route', loan_id=loan[0]) }}" method="POST" class="inline-form">
+                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
