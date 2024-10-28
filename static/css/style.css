@@ -46,3 +46,133 @@ button {
     border-radius: 5px;
     cursor: pointer;
 }
+
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Header and Navigation */
+header {
+    background-color: #0044cc;
+    position: relative; /* Ensure header is positioned correctly */
+    z-index: 2; /* Bring header above other content */
+}
+nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    background-color: #0044cc;
+}
+nav ul li {
+    position: relative;
+}
+nav ul li a {
+    display: block;
+    color: white;
+    padding: 15px 20px;
+    text-decoration: none;
+}
+nav ul li a:hover {
+    background-color: #0033a1;
+}
+
+/* Submenu styles - hidden by default */
+nav ul li ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    background-color: #0044cc;
+    padding: 0;
+}
+nav ul li:hover ul {
+    display: block;
+}
+nav ul li ul li a {
+    padding: 10px 20px;
+}
+nav ul li ul li a:hover {
+    background-color: #0033a1;
+}
+
+/* Main Content */
+main {
+    padding: 20px;
+    min-height: calc(100vh - 120px); /* Adjust for header and footer */
+    position: relative; /* Ensure main content is positioned correctly */
+    z-index: 1; /* Keep main content above cards */
+}
+
+/* Footer */
+footer {
+    background-color: #0044cc;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: relative; /* Change to relative */
+    width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+    }
+    nav ul li ul {
+        position: static;
+    }
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px;
+    margin-top: 20px; /* Add margin to separate from other content */
+}
+
+.card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 300px;
+    margin: 10px;
+    text-align: center;
+    padding: 20px;
+    transition: transform 0.3s;
+    position: relative; /* Maintain relative positioning */
+    z-index: 0; /* Ensure cards are behind content */
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.button-container {
+    margin-top: 15px; /* Ensure space above the button */
+}
+
+.btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block; /* Make button inline-block */
+    margin: 0 auto; /* Center the button */
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}

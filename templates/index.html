@@ -1,34 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Flask App</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mortgage System</title>
+    <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
-    <h1>My Data</h1>
-    <form method="POST" action="/search">
-        <input type="text" name="search_query" placeholder="Search">
-        <button type="submit">Search</button>
-    </form>
-    <table border="1">
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-        </tr>
-        {% for row in data %}
-        <tr>
-            <td>{{ row[0] }}</td>
-            <td>{{ row[1] }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    <form method="POST" action="/add">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name"><br><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email"><br><br>
-        <input type="submit" value="Add">
-    </form>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li>
+                    <a href="#">Customers</a>
+                    <ul>
+                        <li><a href="/add_customer">Add Customer</a></li>
+                        <li><a href="/search">Search Customer</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Loans</a>
+                    <ul>
+                        <li><a href="/add_loan">Add Loan</a></li>
+                        <li><a href="/search_loan">Search Loan</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Collaterals</a>
+                    <ul>
+                        <li><a href="/add_collateral">Add Collateral</a></li>
+                        <li><a href="/search_collateral">Search Collateral</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="card-container">
+            <div class="card">
+                <h2>Manage Customers</h2>
+                <img src="../static/images/customer.jpeg" alt="Customers">
+                <p>Add, search, and manage customer information easily.</p>
+                <div class="button-container">
+                    <a href="/search_customer" class="btn">View Customers</a>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Loan Management</h2>
+                <img src="../static/images/loan-icon.jpeg" alt="Loans">
+                <p>Apply for loans or search for existing loan records.</p>
+                <div class="button-container">
+                    <a href="/search_loan" class="btn">Explore Loans</a>
+                </div>
+            </div>
+            <div class="card">
+                <h2>Collateral Information</h2>
+                <img src="../static/images/collateral.jpeg" alt="Collaterals">
+                <p>Manage collateral details for your loans.</p>
+                <div class="button-container">
+                    <a href="/search_collateral" class="btn">View Collaterals</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Your Mortgage System</p>
+    </footer>
 </body>
 </html>
