@@ -8,6 +8,8 @@
 </head>
 <body>
     <h1>Create Customer</h1>
+    <a href="/">Back to Home</a>
+
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         <ul>
@@ -18,7 +20,7 @@
     {% endif %}
     {% endwith %}
 
-    <form action="/add_customers" method="POST">
+    <form action="/add_customer" method="POST">
         <!-- Personal Information -->
         <fieldset>
             <legend>Personal Information</legend>

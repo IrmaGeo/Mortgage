@@ -48,7 +48,6 @@ button {
 }
 
 
-/* Reset and Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -59,8 +58,8 @@ button {
 /* Header and Navigation */
 header {
     background-color: #0044cc;
-    position: relative; /* Ensure header is positioned correctly */
-    z-index: 2; /* Bring header above other content */
+    position: relative; 
+    z-index: 2; 
 }
 nav ul {
     list-style-type: none;
@@ -103,9 +102,9 @@ nav ul li ul li a:hover {
 /* Main Content */
 main {
     padding: 20px;
-    min-height: calc(100vh - 120px); /* Adjust for header and footer */
-    position: relative; /* Ensure main content is positioned correctly */
-    z-index: 1; /* Keep main content above cards */
+    min-height: calc(100vh - 120px); 
+    position: relative; 
+    z-index: 1; 
 }
 
 /* Footer */
@@ -114,7 +113,7 @@ footer {
     color: white;
     text-align: center;
     padding: 10px 0;
-    position: relative; /* Change to relative */
+    position: relative; 
     width: 100%;
 }
 
@@ -145,8 +144,8 @@ footer {
     text-align: center;
     padding: 20px;
     transition: transform 0.3s;
-    position: relative; /* Maintain relative positioning */
-    z-index: 0; /* Ensure cards are behind content */
+    position: relative; 
+    z-index: 0; 
 }
 
 .card:hover {

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Customer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Update Customer</h1>
+    <a href="/">Back to Home</a>
+
+
+    <form action="/update_customer/{{ customer[0] }}" method="POST">
+        <fieldset>
+            <legend>Customer Details</legend>
+            <label for="customer_ID">Customer ID</label>
+            <input type="text" id="customer_ID" name="customer_ID" value="{{ customer[0] }}" required>
+            <br><br>
+
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" value="{{ customer[1] }}" required>
+            <br><br>
+
+            <label for="middle_name">Middle Name:</label>
+            <input type="text" id="middle_name" name="middle_name" value="{{ customer[2] }}">
+            <br><br>
+
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" value="{{ customer[3] }}" required>
+            <br><br>
+
+            <label for="customer_name">Customer Name:</label>
+            <input type="text" id="customer_name" name="customer_name" value="{{ customer[4] }}" required>
+            <br><br>
+
+            <label for="street_number">Street Number:</label>
+            <input type="text" id="street_number" name="street_number" value="{{ customer[5] }}">
+            <br><br>
+
+            <label for="street_name">Street Name:</label>
+            <input type="text" id="street_name" name="street_name" value="{{ customer[6] }}">
+            <br><br>
+
+            <label for="street">Street Name:</label>
+            <input type="text" id="street" name="street" value="{{ customer[7] }}">
+            <br><br>
+
+            <label for="apt_number">Apartment Number:</label>
+            <input type="text" id="apt_number" name="apt_number" value="{{ customer[8] }}">
+            <br><br>
+
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" value="{{ customer[9] }}" required>
+            <br><br>
+
+            <label for="state">State:</label>
+            <input type="text" id="state" name="state" value="{{ customer[10] }}" required>
+            <br><br>
+
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country" value="{{ customer[11] }}" required>
+            <br><br>
+
+            <label for="zip_code">Zip Code:</label>
+            <input type="text" id="zip_code" name="zip_code" value="{{ customer[12] }}" required>
+            <br><br>
+
+            <label for="phone_number">Phone Number:</label>
+            <input type="tel" id="phone_number" name="phone_number" value="{{ customer[14] }}" required>
+            <br><br>
+
+            <label for="email_address">Email:</label>
+            <input type="email" id="email_address" name="email_address" value="{{ customer[15] }}" required>
+            <br><br>
+
+            <label for="date_of_birth">Date of Birth:</label>
+            <input type="date" id="date_of_birth" name="date_of_birth" value="{{ customer[16] }}" required>
+            <br><br>
+
+            <label for="citizen_status">Citizenship Status:</label>
+            <select id="citizen_status" name="citizen_status">
+                <option value="Citizen" {% if customer[17] == 'Citizen' %}selected{% endif %}>Citizen</option>
+                <option value="Permanent Resident" {% if customer[17] == 'Permanent Resident' %}selected{% endif %}>Permanent Resident</option>
+                <option value="Visa Holder" {% if customer[17] == 'Visa Holder' %}selected{% endif %}>Visa Holder</option>
+                <option value="Other" {% if customer[17] == 'Other' %}selected{% endif %}>Other</option>
+            </select>
+            <br><br>
+
+            <label for="status">Status:</label>
+            <select id="status" name="status">
+                <option value="Active" {% if customer[18] == 'Active' %}selected{% endif %}>Active</option>
+                <option value="Inactive" {% if customer[18] == 'Inactive' %}selected{% endif %}>Inactive</option>
+            </select>
+            <br><br>
+
+            <label for="user_ID">User ID:</label>
+            <input type="text" id="user_ID" name="user_ID" value="{{ customer[19] }}" required>
+            <br><br>
+        </fieldset>
+        <button type="submit">Update Customer</button>
+    </form>
+
+    <a href="/search_customer">Back to Search</a>
+</body>
+</html>
