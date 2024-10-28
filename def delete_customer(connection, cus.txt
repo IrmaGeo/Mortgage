@@ -1,0 +1,11 @@
+def delete_customer(connection, customer_id):
+    cursor = connection.cursor()
+    cursor.execute('DELETE FROM Customers WHERE CustomerID = ?', (customer_id,))
+    connection.commit()
+    print("Customer deleted successfully.")
+
+def delete_loan(connection, loan_id):
+    cursor = connection.cursor()
+    cursor.execute('DELETE FROM Loans WHERE LoanID = ?', (loan_id,))
+    connection.commit()
+    print("Loan deleted successfully.")
