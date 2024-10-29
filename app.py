@@ -33,7 +33,7 @@ def add_customer_to_db(customer_data):
                 street_number, street_name, apt_number, 
                 city, state, country, zip_code, 
                 phone_number, email_address, date_of_birth, 
-                citizen_status, status, user_id
+                citizen_status, status, user_ID
             ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         mycursor.execute(sql, customer_data)
@@ -213,13 +213,13 @@ def add_customer():
             request.form['date_of_birth'],
             request.form['citizen_status'],
             request.form['status'],
-            request.form['user_id']
+            request.form['user_ID']
         )
 
         success, message = add_customer_to_db(customer_data)
         flash(message, 'success' if success else 'danger')
         if success:
-            return redirect(url_for('index'))
+            return redirect(url_for('search_customer'))
     return render_template('add_customer.html')
 
 @app.route('/update_customer/<int:customer_id>', methods=['GET', 'POST'])
