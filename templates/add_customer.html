@@ -8,7 +8,6 @@
 </head>
 <body>
     <h1>Create Customer</h1>
-    <a href="/">Back to Home</a>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -106,7 +105,9 @@
             <input type="text" id="user_ID" name="user_ID" required>
         </fieldset>
 
-        <button type="submit">Create Customer</button>
+        <button type="submit" class="btn btn-primary">Create Customer</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Home</a>
+
     </form>
 </body>
 </html>
