@@ -3,6 +3,7 @@ import mysql.connector
 import os
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
 app = Flask(__name__, template_folder='templates')
@@ -252,11 +253,19 @@ def update_customer(customer_id):
         customer = mycursor.fetchone()
         return render_template('update_customer.html', customer=customer)
 
-@app.route('/delete_customer/<int:customer_id>', methods=['POST'])
 def delete_customer(customer_id):
-    success, message = delete_customer_from_db(customer_id)
-    flash(message, 'success' if success else 'danger')
-    return redirect(url_for('index'))
+    try:
+        # Attempt to delete the customer
+        mycursor.execute("DELETE FROM customer WHERE customer_ID = %s", (customer_id,))
+        mydb.commit()
+        flash('Customer deleted successfully.')
+    except mysql.connector.Error as err:
+        # Check for foreign key constraint error (error code 1451)
+        if err.errno == 1451:
+            flash('You cannot delete the customer because it has an active loan.')
+        else:
+            flash(f'Error deleting customer: {err}')
+        mydb.rollback()
 
 @app.route('/add_loan', methods=['GET', 'POST'])
 def add_loan_route():
@@ -368,6 +377,20 @@ def search_loans_in_db(criteria):
         print(f"Error searching loans: {err}")
         return []
 
+@app.route('/delete_customer/<int:customer_id>', methods=['POST'])
+def delete_customer(customer_id):
+    try:
+        # Attempt to delete the customer
+        mycursor.execute("DELETE FROM customer WHERE customer_ID = %s", (customer_id,))
+        mydb.commit()
+        flash('Customer deleted successfully.')
+    except mysql.connector.Error as err:
+        if err.errno == 1451:
+            flash('You cannot delete the customer because it has an active loan.')
+        else:
+            flash(f'Error deleting customer: {err}')
+        mydb.rollback()
+    return redirect(url_for('search_customer'))  # Redirect to the search page or wherever you want
 
 if __name__ == '__main__':
     app.run(debug=True)

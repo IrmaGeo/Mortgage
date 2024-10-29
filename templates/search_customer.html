@@ -5,6 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Customer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1, h2 {
+            margin-bottom: 10px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        fieldset {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            margin: 5px 0 2px;
+        }
+        input[type="text"],
+        input[type="tel"] {
+            padding: 5px;
+            width: calc(100% - 12px);
+            max-width: 300px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 5px 10px;
+            margin-right: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: left;
+            font-size: 0.9em; /* Smaller font size for compactness */
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .actions {
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically */
+            gap: 5px; /* Space between buttons */
+        }
+    </style>
 </head>
 <body>
     <h1>Search Customer</h1>
@@ -24,19 +75,16 @@
             <legend>Search Criteria</legend>
             <label for="first_name">First Name:</label>
             <input type="text" id="first_name" name="first_name" required>
-            <br><br>
 
             <label for="last_name">Last Name:</label>
             <input type="text" id="last_name" name="last_name">
-            <br><br>
 
             <label for="phone_number">Phone Number:</label>
             <input type="tel" id="phone_number" name="phone_number">
-            <br><br>
         </fieldset>
         <button type="submit" class="btn btn-primary">Search</button>
         <a href="{{ url_for('index') }}" class="btn btn-secondary">Back to Home</a>
-</form>
+    </form>
 
     {% if customers %}
         <h2>Search Results:</h2>
@@ -47,16 +95,19 @@
                     <th>First Name</th>
                     <th>Middle Name</th>
                     <th>Last Name</th>
+                    <th>Customer Name</th>
                     <th>Street Number</th>
                     <th>Street Name</th>
+                    <th>Street</th>
                     <th>Apartment Number</th>
                     <th>City</th>
                     <th>State</th>
                     <th>Country</th>
                     <th>Zip Code</th>
+                    <th>Address</th>
                     <th>Phone Number</th>
                     <th>Email</th>
-                    <th>Date of Birth</th>
+                    <th>DOB</th>
                     <th>Citizenship Status</th>
                     <th>Status</th>
                     <th>Creation Date</th>
@@ -87,7 +138,8 @@
                         <td>{{ customer[17] }}</td>
                         <td>{{ customer[18] }}</td>
                         <td>{{ customer[19] }}</td>
-                        <td>
+                        <td>{{ customer[20] }}</td>
+                        <td class="actions">
                             <form action="/delete_customer/{{ customer[0] }}" method="POST" style="display:inline;">
                                 <button type="submit" onclick="return confirm('Are you sure you want to delete this customer?');">Delete</button>
                             </form>
