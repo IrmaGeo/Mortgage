@@ -60,21 +60,11 @@
 <body>
     <h1>Search Customer</h1>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        <ul class="flashes">
-            {% for category, message in messages %}
-                <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    {% endwith %}
-
     <form action="/search_customer" method="POST">
         <fieldset>
             <legend>Search Criteria</legend>
             <label for="first_name">First Name:</label>
-            <input type="text" id="first_name" name="first_name" required>
+            <input type="text" id="first_name" name="first_name">
 
             <label for="last_name">Last Name:</label>
             <input type="text" id="last_name" name="last_name">
@@ -150,7 +140,16 @@
             </tbody>
         </table>
     {% else %}
-        <p>No customers found.</p>
     {% endif %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flashes">
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
 </body>
 </html>
