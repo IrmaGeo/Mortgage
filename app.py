@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__, template_folder='templates')
-
+app.secret_key = os.getenv('FLASK_SECRET_KEY')
 # MySQL connection details
 mydb = mysql.connector.connect(
     host=os.getenv('DATABASE_HOST'),
@@ -147,12 +147,13 @@ def search_customers(criteria):
         print(f"Error searching customers: {err}")
         return []
 
-def view_loans(connection):
-    cursor = connection.cursor()
-    cursor.execute('SELECT * FROM Loans')
-    loans = cursor.fetchall()
-    for loan in loans:
-        print(loan)
+def view_loans():
+    try:
+        mycursor.execute('SELECT l.*, c.first_name, c.last_name FROM loans l JOIN customer c ON l.customer_id = c.customer_id')
+        return mycursor.fetchall()
+    except mysql.connector.Error as err:
+        print(f"Error viewing loans: {err}")
+        return []
 
 def add_loan(mycursor, mydb, customer_id, loan_amount, loan_term, interest_rate, status="Active"):
     try:
@@ -381,11 +382,10 @@ def update_loan_route(loan_id):
     return render_template('update_loan.html', loan=loan)
 
 @app.route('/delete_loan/<int:loan_id>', methods=['POST'])
-def delete_loan(connection, loan_id):
-    cursor = connection.cursor()
-    cursor.execute('DELETE FROM Loans WHERE LoanID = ?', (loan_id,))
-    connection.commit()
-    print("Loan deleted successfully.")
+def delete_loan_route(loan_id):
+    success, message = delete_loan(mycursor, mydb, loan_id)
+    flash(message, 'success' if success else 'danger')
+    return redirect(url_for('view_all_loans'))
 
 @app.route('/search_loan', methods=['GET', 'POST'])
 def search_loan():
