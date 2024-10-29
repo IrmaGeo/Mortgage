@@ -301,5 +301,73 @@ def delete_loan_route(loan_id):
     flash(message, 'success' if success else 'danger') 
     return redirect(url_for('view_loans_route'))
 
+
+@app.route('/search_loans', methods=['GET', 'POST'])
+def search_loans():
+    loans = []
+    if request.method == 'POST':
+        loan_id = request.form.get('loan_id')
+        customer_id = request.form.get('customer_id')
+        customer_name = request.form.get('customer_name')
+        start_date = request.form.get('start_date')
+        end_date = request.form.get('end_date')
+        loan_status = request.form.get('loan_status')
+
+        # Build search criteria
+        criteria = {}
+        if loan_id:
+            criteria['loan_id'] = loan_id
+        if customer_id:
+            criteria['customer_id'] = customer_id
+        if customer_name:
+            criteria['customer_name'] = customer_name
+        if start_date:
+            criteria['start_date'] = start_date
+        if end_date:
+            criteria['end_date'] = end_date
+        if loan_status:
+            criteria['loan_status'] = loan_status
+
+        # Perform the search
+        loans = search_loans_in_db(criteria)
+        if not loans:
+            flash('No loans found with the provided criteria.', 'warning')
+
+    return render_template('search_loan.html', loans=loans)
+
+def search_loans_in_db(criteria):
+    try:
+        query = """
+            SELECT l.* FROM loan l
+            WHERE 1=1
+        """
+        params = []
+
+        if criteria.get('loan_id'):
+            query += " AND l.loan_ID = %s"
+            params.append(criteria['loan_id'])
+        if criteria.get('customer_id'):
+            query += " AND l.customer_ID = %s"
+            params.append(criteria['customer_id'])
+        if criteria.get('customer_name'):
+            query += " AND l.customer_ID IN (SELECT customer_ID FROM customer WHERE CONCAT(first_name, ' ', last_name) LIKE %s)"
+            params.append(f"%{criteria['customer_name']}%")
+        if criteria.get('start_date'):
+            query += " AND l.start_date >= %s"
+            params.append(criteria['start_date'])
+        if criteria.get('end_date'):
+            query += " AND l.end_date <= %s"
+            params.append(criteria['end_date'])
+        if criteria.get('loan_status'):
+            query += " AND l.status = %s"
+            params.append(criteria['loan_status'])
+
+        mycursor.execute(query, params)
+        return mycursor.fetchall()
+    except mysql.connector.Error as err:
+        print(f"Error searching loans: {err}")
+        return []
+
+
 if __name__ == '__main__':
     app.run(debug=True)
