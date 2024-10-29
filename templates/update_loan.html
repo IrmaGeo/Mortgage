@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Update Loan</h2>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <div class="form-group">
+            <label>Loan ID: {{ loan[0] }}</label>
+        </div>
+        <div class="form-group">
+            <label>Customer: {{ loan[5] }} {{ loan[6] }}</label>
+        </div>
+        <div class="form-group">
+            <label>Loan Amount: ${{ loan[2] }}</label>
+        </div>
+        <div class="form-group">
+            <label>Loan Term: {{ loan[3] }} months</label>
+        </div>
+        <div class="form-group">
+            <label>Interest Rate: {{ loan[4] }}%</label>
+        </div>
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select class="form-control" id="status" name="status" required>
+                <option value="Active" {% if loan[5] == 'Active' %}selected{% endif %}>Active</option>
+                <option value="Closed" {% if loan[5] == 'Closed' %}selected{% endif %}>Closed</option>
+                <option value="Default" {% if loan[5] == 'Default' %}selected{% endif %}>Default</option>
+                <option value="Pending" {% if loan[5] == 'Pending' %}selected{% endif %}>Pending</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Loan</button>
+        <a href="{{ url_for('view_all_loans') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %} 
