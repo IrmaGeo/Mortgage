@@ -1,5 +1,4 @@
-/* styles.css */
-
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
@@ -47,6 +46,9 @@ button {
     cursor: pointer;
 }
 
+button:hover {
+    background-color: #45a049;
+}
 
 * {
     margin: 0;
@@ -127,6 +129,7 @@ footer {
     }
 }
 
+/* Card Styles */
 .card-container {
     display: flex;
     justify-content: space-around;
@@ -174,4 +177,54 @@ footer {
 
 .btn:hover {
     background-color: #0056b3;
+}
+
+/* Checkbox Styling for Rank Reports */
+.checkbox-group-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 40px; /* Space between "Order By" and "Partition By" sections */
+    margin-bottom: 20px;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between each checkbox in the group */
+    margin-right: 20px; /* Add space between groups */
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Form Button Styles */
+button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #0044cc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 20px;
+}
+
+button[type="submit"]:hover {
+    background-color: #0033a1;
+}
+fieldset {
+    margin: 20px;
 }

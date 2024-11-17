@@ -416,5 +416,48 @@ def ntile_report():
         flash(f"Error fetching loans: {err}", 'danger')
     return render_template('report.html', loans=loans, ntile_value=ntile_value)
 
+@app.route('/rank_report', methods=['GET', 'POST'])
+def rank_report():
+    loans = []
+    try:
+        query = """
+           SELECT loan_ID, customer_ID, start_date, end_date, agreement_amount, 
+                   withdraw_amount, int_rate, int_rate_type, loan_type, loan_purpose, 
+                   user_ID, status, account_ID,
+                   RANK() OVER (ORDER BY agreement_amount DESC) AS nt_rank
+            FROM loan
+        """
+        mycursor.execute(query)
+        loans = mycursor.fetchall()
+        if not loans:
+            flash('No loans found for the specified RANK calculation.', 'warning')
+    except mysql.connector.Error as err:
+        flash(f"Error fetching loans: {err}", 'danger')
+    return render_template('rank_report.html', loans=loans)
+
+@app.route('/dense_rank', methods=['GET', 'POST'])
+def dense_rank_report():
+    loans = []
+    order_by = request.form.get('order_by', '')  # Default order by agreement_amount
+    partition_by = request.form.getlist('partition_by')  # List of fields to partition by
+    print(partition_by)
+    try:
+        # Construct the PARTITION BY clause
+        partition_clause = f"PARTITION BY {', '.join(partition_by)}" if partition_by else ""
+        query = f"""
+             SELECT loan_ID, customer_ID, start_date, end_date, agreement_amount, 
+                   withdraw_amount, int_rate, int_rate_type, loan_type, loan_purpose, 
+                   user_ID, status, account_ID,
+                   dense_rank() OVER ({partition_clause} ORDER BY {order_by} DESC) AS ds_rank
+            FROM loan
+        """
+        mycursor.execute(query)
+        loans = mycursor.fetchall()
+        if not loans:
+            flash('No loans found for the specified DENSE_RANK calculation.', 'warning')
+    except mysql.connector.Error as err:
+        flash(f"Error fetching loans: {err}", 'danger')
+    return render_template('dense_rank.html', loans=loans, order_by=order_by, partition_by=partition_by)
+
 if __name__ == '__main__':
     app.run(debug=True)
