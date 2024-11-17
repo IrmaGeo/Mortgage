@@ -392,5 +392,29 @@ def delete_customer(customer_id):
         mydb.rollback()
     return redirect(url_for('search_customer'))  # Redirect to the search page or wherever you want
 
+@app.route('/ntile_report', methods=['GET', 'POST'])
+def ntile_report():
+    loans = []
+    ntile_value = request.form.get('ntile_value', 4)  # Default value is 4
+    try:
+        # Get the NTILE value from the form input
+        ntile_value = int(ntile_value)
+        query = f"""
+            SELECT loan_ID, customer_ID, start_date, end_date, agreement_amount, 
+                   withdraw_amount, int_rate, int_rate_type, loan_type, loan_purpose, 
+                   user_ID, status, account_ID,
+                   NTILE({ntile_value}) OVER (ORDER BY agreement_amount DESC) AS ntile_rank
+            FROM loan
+        """
+        mycursor.execute(query)
+        loans = mycursor.fetchall()
+        if not loans:
+            flash('No loans found for the specified NTILE calculation.', 'warning')
+    except ValueError:
+        flash('Please enter a valid integer for NTILE value.', 'danger')
+    except mysql.connector.Error as err:
+        flash(f"Error fetching loans: {err}", 'danger')
+    return render_template('report.html', loans=loans, ntile_value=ntile_value)
+
 if __name__ == '__main__':
     app.run(debug=True)
