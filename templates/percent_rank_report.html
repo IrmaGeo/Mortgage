@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Percent Rank Report</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/reports">Reports</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Percent Rank Report</h1>
+        <form method="POST" action="/percent_rank_report">
+            <fieldset>
+                <legend>Order By</legend>
+                <label><input type="checkbox" name="order_by" value="agreement_amount" {% if 'agreement_amount' in order_by %}checked{% endif %}> Agreement Amount</label>
+                <label><input type="checkbox" name="order_by" value="withdraw_amount" {% if 'withdraw_amount' in order_by %}checked{% endif %}> Withdraw Amount</label>
+                <label><input type="checkbox" name="order_by" value="int_rate" {% if 'int_rate' in order_by %}checked{% endif %}> Interest Rate</label>
+                <label><input type="checkbox" name="order_by" value="start_date" {% if 'start_date' in order_by %}checked{% endif %}> Start Date</label>
+                <label><input type="checkbox" name="order_by" value="end_date" {% if 'end_date' in order_by %}checked{% endif %}> End Date</label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Partition By</legend>
+                <label><input type="checkbox" name="partition_by" value="loan_type" {% if 'loan_type' in partition_by %}checked{% endif %}> Loan Type</label>
+                <label><input type="checkbox" name="partition_by" value="status" {% if 'status' in partition_by %}checked{% endif %}> Status</label>
+                <label><input type="checkbox" name="partition_by" value="int_rate_type" {% if 'int_rate_type' in partition_by %}checked{% endif %}> Interest Rate Type</label>
+                <label><input type="checkbox" name="partition_by" value="user_ID" {% if 'user_ID' in partition_by %}checked{% endif %}> User ID</label>
+                <label><input type="checkbox" name="partition_by" value="customer_ID" {% if 'customer_ID' in partition_by %}checked{% endif %}> Customer ID</label>
+            </fieldset>
+
+            <button type="submit">Generate Report</button>
+        </form>
+
+        {% if loans %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Loan ID</th>
+                    <th>Customer ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Agreement Amount</th>
+                    <th>Percent Rank</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for loan in loans %}
+                <tr>
+                    <td>{{ loan[0] }}</td>
+                    <td>{{ loan[1] }}</td>
+                    <td>{{ loan[13] }}</td>
+                    <td>{{ loan[14] }}</td>
+                    <td>{{ loan[4] }}</td>
+                    <td>{{ loan[16] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No loans found for the specified Percent Rank calculation.</p>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Your Mortgage System</p>
+    </footer>
+</body>
+</html>

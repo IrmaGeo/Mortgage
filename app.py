@@ -414,7 +414,7 @@ def ntile_report():
         flash('Please enter a valid integer for NTILE value.', 'danger')
     except mysql.connector.Error as err:
         flash(f"Error fetching loans: {err}", 'danger')
-    return render_template('report.html', loans=loans, ntile_value=ntile_value)
+    return render_template('ntile_report.html', loans=loans, ntile_value=ntile_value)
 
 @app.route('/rank_report', methods=['GET', 'POST'])
 def rank_report():
@@ -457,7 +457,124 @@ def dense_rank_report():
             flash('No loans found for the specified DENSE_RANK calculation.', 'warning')
     except mysql.connector.Error as err:
         flash(f"Error fetching loans: {err}", 'danger')
-    return render_template('dense_rank.html', loans=loans, order_by=order_by, partition_by=partition_by)
+    return render_template('dense_rank_report.html', loans=loans, order_by=order_by, partition_by=partition_by)
+
+@app.route('/percent_rank_report', methods=['GET', 'POST'])
+def percent_rank_report():
+    loans = []
+    order_by = request.form.get('order_by', '')  # Default order by agreement_amount
+    partition_by = request.form.getlist('partition_by')  # List of fields to partition by
+    try:
+        # Construct the PARTITION BY clause
+        partition_clause = f"PARTITION BY {', '.join(partition_by)}" if partition_by else ""
+        query = f"""
+            WITH loan_customer_data AS (
+                SELECT l.loan_ID, l.customer_ID, l.start_date, l.end_date, l.agreement_amount, 
+                       l.withdraw_amount, l.int_rate, l.int_rate_type, l.loan_type, l.loan_purpose, 
+                       l.user_ID, l.status, l.account_ID, c.first_name, c.last_name, c.email_address
+                FROM loan l
+                JOIN customer c ON l.customer_ID = c.customer_ID
+            )
+            SELECT loan_ID, customer_ID, start_date, end_date, agreement_amount, 
+                   withdraw_amount, int_rate, int_rate_type, loan_type, loan_purpose, 
+                   user_ID, status, account_ID, first_name, last_name, email_address,
+                   round(PERCENT_RANK() OVER ({partition_clause} ORDER BY {order_by} DESC),2) AS prc_rank
+            FROM loan_customer_data
+        """
+        mycursor.execute(query)
+        loans = mycursor.fetchall()
+        if not loans:
+            flash('No loans found for the specified PERCENT_RANK calculation.', 'warning')
+    except mysql.connector.Error as err:
+        flash(f"Error fetching loans: {err}", 'danger')
+    return render_template('percent_rank_report.html', loans=loans, order_by=order_by, partition_by=partition_by)
+
+@app.route('/loan_analysis_report', methods=['GET'])
+def loan_analysis_report():
+    loans = []
+    try:
+        query = """
+            SELECT loan_type, 
+                   CASE 
+                       WHEN int_rate BETWEEN 3 AND 5 THEN '3-5%'
+                       WHEN int_rate BETWEEN 5 AND 7 THEN '5-7%'
+                       ELSE '7% and above'
+                   END AS interest_range,
+                   SUM(agreement_amount) AS total_loan_amount
+            FROM loan
+            GROUP BY ROLLUP(loan_type, interest_range)
+        """
+        mycursor.execute(query)
+        loans = mycursor.fetchall()
+        if not loans:
+            flash('No loan data found for the analysis report.', 'warning')
+    except mysql.connector.Error as err:
+        flash(f"Error fetching loan analysis data: {err}", 'danger')
+    return render_template('loan_analysis_report.html', loans=loans)
+
+@app.route('/top_users_report', methods=['GET'])
+def top_users_report():
+    users = []
+    try:
+        query = """
+            SELECT user_ID, COUNT(loan_ID) AS loan_count
+            FROM loan
+            GROUP BY user_ID
+            ORDER BY loan_count DESC
+            LIMIT 3
+        """
+        mycursor.execute(query)
+        users = mycursor.fetchall()
+        if not users:
+            flash('No data found for the top users report.', 'warning')
+    except mysql.connector.Error as err:
+        flash(f"Error fetching top users data: {err}", 'danger')
+    return render_template('top_users_report.html', users=users)
+
+@app.route('/monthly_disbursement_report', methods=['GET'])
+def monthly_disbursement_report():
+    disbursements = []
+    try:
+        query = """
+            SELECT DATE_FORMAT(start_date, '%Y-%m') AS disbursement_month,
+                   SUM(agreement_amount) AS total_disbursement
+            FROM loan
+            GROUP BY disbursement_month
+            ORDER BY disbursement_month
+        """
+        mycursor.execute(query)
+        disbursements = mycursor.fetchall()
+        if not disbursements:
+            flash('No loan disbursement data found for the specified period.', 'warning')
+    except mysql.connector.Error as err:
+        flash(f"Error fetching monthly disbursement data: {err}", 'danger')
+    return render_template('monthly_disbursement_report.html', disbursements=disbursements)
+
+@app.route('/overdue_loans_report', methods=['GET'])
+def overdue_loans_report():
+    loans = []
+    try:
+        query = """
+            WITH overdue_loans AS (
+                SELECT COUNT(*) AS overdue_count
+                FROM loan
+                WHERE status = 'Overdue'
+            ),
+            total_loans AS (
+                SELECT COUNT(*) AS total_count
+                FROM loan
+            )
+            SELECT o.overdue_count, t.total_count,
+                   (o.overdue_count / t.total_count) * 100 AS overdue_percentage
+            FROM overdue_loans o, total_loans t
+        """
+        mycursor.execute(query)
+        loans = mycursor.fetchall()
+        if not loans:
+            flash('No data found for overdue loans report.', 'warning')
+    except mysql.connector.Error as err:
+        flash(f"Error fetching overdue loans data: {err}", 'danger')
+    return render_template('overdue_loans_report.html', loans=loans)
 
 if __name__ == '__main__':
     app.run(debug=True)
