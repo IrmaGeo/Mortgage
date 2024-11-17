@@ -494,15 +494,17 @@ def loan_analysis_report():
     loans = []
     try:
         query = """
-            SELECT loan_type, 
-                   CASE 
-                       WHEN int_rate BETWEEN 3 AND 5 THEN '3-5%'
-                       WHEN int_rate BETWEEN 5 AND 7 THEN '5-7%'
-                       ELSE '7% and above'
-                   END AS interest_range,
-                   SUM(agreement_amount) AS total_loan_amount
-            FROM loan
-            GROUP BY ROLLUP(loan_type, interest_range)
+               SELECT
+                    loan_type,
+                    CASE
+                        WHEN int_rate BETWEEN 3 AND 5 THEN '3-5%'
+                        WHEN int_rate BETWEEN 5 AND 7 THEN '5-7%'
+                        ELSE '7% and above'
+                    END AS interest_range,
+                    SUM(agreement_amount) AS total_loan_amount
+                FROM loan
+                GROUP BY loan_type, interest_range
+                WITH ROLLUP;
         """
         mycursor.execute(query)
         loans = mycursor.fetchall()
