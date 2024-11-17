@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overdue Loans Report</title>
+    <title>Monthly Disbursement Report</title>
     <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
@@ -22,28 +22,26 @@
     </header>
 
     <main>
-        <h1>Overdue Loans Report</h1>
-        {% if loans %}
+        <h1>Monthly Disbursement Report</h1>
+        {% if disbursements %}
         <table>
             <thead>
                 <tr>
-                    <th>Overdue Loan Count</th>
-                    <th>Total Loan Count</th>
-                    <th>Overdue Percentage (%)</th>
+                    <th>Disbursement Month</th>
+                    <th>Total Disbursement</th>
                 </tr>
             </thead>
             <tbody>
-                {% for loan in loans %}
+                {% for disbursement in disbursements %}
                 <tr>
-                    <td>{{ loan[0] }}</td>
-                    <td>{{ loan[1] }}</td>
-                    <td>{{ loan[2] }}</td>
+                    <td>{{ disbursement[0] }}</td>
+                    <td>{{ disbursement[1] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         {% else %}
-        <p>No data found for overdue loans report.</p>
+        <p>No loan disbursement data found for the specified period.</p>
         {% endif %}
     </main>
 

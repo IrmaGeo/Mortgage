@@ -435,7 +435,7 @@ def rank_report():
         flash(f"Error fetching loans: {err}", 'danger')
     return render_template('rank_report.html', loans=loans)
 
-@app.route('/dense_rank', methods=['GET', 'POST'])
+@app.route('/dense_rank_report', methods=['GET', 'POST'])
 def dense_rank_report():
     loans = []
     order_by = request.form.get('order_by', '')  # Default order by agreement_amount

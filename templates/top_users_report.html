@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Overdue Loans Report</title>
+    <title>Top Users Report</title>
     <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
@@ -22,28 +22,26 @@
     </header>
 
     <main>
-        <h1>Overdue Loans Report</h1>
-        {% if loans %}
+        <h1>Top Users Report</h1>
+        {% if users %}
         <table>
             <thead>
                 <tr>
-                    <th>Overdue Loan Count</th>
-                    <th>Total Loan Count</th>
-                    <th>Overdue Percentage (%)</th>
+                    <th>User ID</th>
+                    <th>Loan Count</th>
                 </tr>
             </thead>
             <tbody>
-                {% for loan in loans %}
+                {% for user in users %}
                 <tr>
-                    <td>{{ loan[0] }}</td>
-                    <td>{{ loan[1] }}</td>
-                    <td>{{ loan[2] }}</td>
+                    <td>{{ user[0] }}</td>
+                    <td>{{ user[1] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         {% else %}
-        <p>No data found for overdue loans report.</p>
+        <p>No data found for the top users report.</p>
         {% endif %}
     </main>
 
