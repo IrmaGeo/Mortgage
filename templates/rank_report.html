@@ -10,6 +10,7 @@
     <header>
         <nav>
             <ul>
+                <!-- Navigation links to various report pages and home page -->
                 <li><a href="/">Home</a></li>
                 <li><a href="/rank_report">Rank Report</a></li>
             </ul>
@@ -19,10 +20,12 @@
     <main>
         <h1>Rank Report</h1>
 
+        <!-- Check if there are any loans to display -->
         {% if loans %}
         <table>
             <thead>
                 <tr>
+                    <!-- Table headers for displaying loan data and rank -->
                     <th>Loan ID</th>
                     <th>Customer ID</th>
                     <th>Start Date</th>
@@ -40,6 +43,7 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- Loop through the loans and display each one -->
                 {% for loan in loans %}
                 <tr>
                     <td>{{ loan[0] }}</td>
@@ -60,11 +64,15 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% else %}
+        <!-- Message to display if no loans found for the specified rank calculation -->
+        <p>No loans found for the specified Rank calculation.</p>
         {% endif %}
        
     </main>
 
     <footer>
+        <!-- Footer with copyright information -->
         <p>&copy; 2024 Your Mortgage System</p>
     </footer>
 </body>

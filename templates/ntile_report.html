@@ -10,6 +10,7 @@
     <header>
         <nav>
             <ul>
+                <!-- Navigation links to various report pages and home page -->
                 <li><a href="/">Home</a></li>
                 <li><a href="/percent_rank_report">Percent Rank Report</a></li>
                 <li><a href="/loan_analysis_report">Loan Analysis Report</a></li>
@@ -22,16 +23,20 @@
 
     <main>
         <h1>NTILE Report</h1>
+        
+        <!-- Form to enter NTILE value to generate the report -->
         <form method="POST">
             <label for="ntile_value">Enter NTILE value:</label>
             <input type="number" id="ntile_value" name="ntile_value" min="1" max="10">
             <button type="submit">Generate Report</button>
         </form>
 
+        <!-- Display the loans in a table if any are returned -->
         {% if loans %}
         <table>
             <thead>
                 <tr>
+                    <!-- Table headers for loan details and NTILE rank -->
                     <th>Loan ID</th>
                     <th>Customer ID</th>
                     <th>Start Date</th>
@@ -49,6 +54,7 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- Loop through the loans and display each one -->
                 {% for loan in loans %}
                 <tr>
                     <td>{{ loan[0] }}</td>
@@ -73,6 +79,7 @@
     </main>
 
     <footer>
+        <!-- Footer with copyright information -->
         <p>&copy; 2024 Your Mortgage System</p>
     </footer>
 </body>

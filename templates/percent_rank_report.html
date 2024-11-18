@@ -10,6 +10,7 @@
     <header>
         <nav>
             <ul>
+                <!-- Navigation links to various report pages and home page -->
                 <li><a href="/">Home</a></li>
                 <li><a href="/percent_rank_report">Percent Rank Report</a></li>
                 <li><a href="/loan_analysis_report">Loan Analysis Report</a></li>
@@ -22,9 +23,12 @@
 
     <main>
         <h1>Percent Rank Report</h1>
+        
+        <!-- Form to select ordering and partitioning criteria for the report -->
         <form method="POST" action="/percent_rank_report">
             <fieldset>
                 <legend>Order By</legend>
+                <!-- Checkboxes to select columns to order by -->
                 <label><input type="checkbox" name="order_by" value="agreement_amount" {% if 'agreement_amount' in order_by %}checked{% endif %}> Agreement Amount</label>
                 <label><input type="checkbox" name="order_by" value="withdraw_amount" {% if 'withdraw_amount' in order_by %}checked{% endif %}> Withdraw Amount</label>
                 <label><input type="checkbox" name="order_by" value="int_rate" {% if 'int_rate' in order_by %}checked{% endif %}> Interest Rate</label>
@@ -34,6 +38,7 @@
 
             <fieldset>
                 <legend>Partition By</legend>
+                <!-- Checkboxes to select columns to partition by -->
                 <label><input type="checkbox" name="partition_by" value="loan_type" {% if 'loan_type' in partition_by %}checked{% endif %}> Loan Type</label>
                 <label><input type="checkbox" name="partition_by" value="status" {% if 'status' in partition_by %}checked{% endif %}> Status</label>
                 <label><input type="checkbox" name="partition_by" value="int_rate_type" {% if 'int_rate_type' in partition_by %}checked{% endif %}> Interest Rate Type</label>
@@ -41,13 +46,16 @@
                 <label><input type="checkbox" name="partition_by" value="customer_ID" {% if 'customer_ID' in partition_by %}checked{% endif %}> Customer ID</label>
             </fieldset>
 
+            <!-- Button to generate the report based on the selected criteria -->
             <button type="submit">Generate Report</button>
         </form>
 
+        <!-- Check if there are any loans to display -->
         {% if loans %}
         <table>
             <thead>
                 <tr>
+                    <!-- Table headers for displaying loan data and percent rank -->
                     <th>Loan ID</th>
                     <th>Customer ID</th>
                     <th>First Name</th>
@@ -57,6 +65,7 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- Loop through the loans and display each one -->
                 {% for loan in loans %}
                 <tr>
                     <td>{{ loan[0] }}</td>
@@ -70,11 +79,13 @@
             </tbody>
         </table>
         {% else %}
+        <!-- Message to display if no loans found for the specified percent rank calculation -->
         <p>No loans found for the specified Percent Rank calculation.</p>
         {% endif %}
     </main>
 
     <footer>
+        <!-- Footer with copyright information -->
         <p>&copy; 2024 Your Mortgage System</p>
     </footer>
 </body>

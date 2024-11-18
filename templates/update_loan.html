@@ -1,44 +1,129 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Customer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Title for the Update Customer page -->
+    <h1>Update Customer</h1>
+    <!-- Link to navigate back to the home page -->
+    <a href="/">Back to Home</a>
 
-{% block content %}
-<div class="container mt-4">
-    <h2>Update Loan</h2>
-    
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+    <!-- Form to update customer details -->
+    <form action="/update_customer/{{ customer[0] }}" method="POST">
+        <fieldset>
+            <legend>Customer Details</legend>
+            <!-- Customer ID field, read-only for identification purposes -->
+            <label for="customer_ID">Customer ID</label>
+            <input type="text" id="customer_ID" name="customer_ID" value="{{ customer[0] }}" required readonly>
+            <br><br>
 
-    <form method="POST">
-        <div class="form-group">
-            <label>Loan ID: {{ loan[0] }}</label>
-        </div>
-        <div class="form-group">
-            <label>Customer: {{ loan[5] }} {{ loan[6] }}</label>
-        </div>
-        <div class="form-group">
-            <label>Loan Amount: ${{ loan[2] }}</label>
-        </div>
-        <div class="form-group">
-            <label>Loan Term: {{ loan[3] }} months</label>
-        </div>
-        <div class="form-group">
-            <label>Interest Rate: {{ loan[4] }}%</label>
-        </div>
-        <div class="form-group">
-            <label for="status">Status:</label>
-            <select class="form-control" id="status" name="status" required>
-                <option value="Active" {% if loan[5] == 'Active' %}selected{% endif %}>Active</option>
-                <option value="Closed" {% if loan[5] == 'Closed' %}selected{% endif %}>Closed</option>
-                <option value="Default" {% if loan[5] == 'Default' %}selected{% endif %}>Default</option>
-                <option value="Pending" {% if loan[5] == 'Pending' %}selected{% endif %}>Pending</option>
+            <!-- Input fields for customer details -->
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" value="{{ customer[1] }}" required>
+            <br><br>
+
+            <!-- Middle name field (optional) -->
+            <label for="middle_name">Middle Name:</label>
+            <input type="text" id="middle_name" name="middle_name" value="{{ customer[2] }}">
+            <br><br>
+
+            <!-- Last name field -->
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" value="{{ customer[3] }}" required>
+            <br><br>
+
+            <!-- Full customer name field -->
+            <label for="customer_name">Customer Name:</label>
+            <input type="text" id="customer_name" name="customer_name" value="{{ customer[4] }}" required>
+            <br><br>
+
+            <!-- Street number field -->
+            <label for="street_number">Street Number:</label>
+            <input type="text" id="street_number" name="street_number" value="{{ customer[5] }}">
+            <br><br>
+
+            <!-- Street name field -->
+            <label for="street_name">Street Name:</label>
+            <input type="text" id="street_name" name="street_name" value="{{ customer[6] }}">
+            <br><br>
+
+            <!-- Street field -->
+            <label for="street">Street Name:</label>
+            <input type="text" id="street" name="street" value="{{ customer[7] }}">
+            <br><br>
+
+            <!-- Apartment number field (optional) -->
+            <label for="apt_number">Apartment Number:</label>
+            <input type="text" id="apt_number" name="apt_number" value="{{ customer[8] }}">
+            <br><br>
+
+            <!-- City field -->
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" value="{{ customer[9] }}" required>
+            <br><br>
+
+            <!-- State field -->
+            <label for="state">State:</label>
+            <input type="text" id="state" name="state" value="{{ customer[10] }}" required>
+            <br><br>
+
+            <!-- Country field -->
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country" value="{{ customer[11] }}" required>
+            <br><br>
+
+            <!-- Zip code field -->
+            <label for="zip_code">Zip Code:</label>
+            <input type="text" id="zip_code" name="zip_code" value="{{ customer[12] }}" required>
+            <br><br>
+
+            <!-- Phone number field -->
+            <label for="phone_number">Phone Number:</label>
+            <input type="tel" id="phone_number" name="phone_number" value="{{ customer[14] }}" required>
+            <br><br>
+
+            <!-- Email address field -->
+            <label for="email_address">Email:</label>
+            <input type="email" id="email_address" name="email_address" value="{{ customer[15] }}" required>
+            <br><br>
+
+            <!-- Date of birth field -->
+            <label for="date_of_birth">Date of Birth:</label>
+            <input type="date" id="date_of_birth" name="date_of_birth" value="{{ customer[16] }}" required>
+            <br><br>
+
+            <!-- Dropdown to select the citizenship status of the customer -->
+            <label for="citizen_status">Citizenship Status:</label>
+            <select id="citizen_status" name="citizen_status">
+                <option value="Citizen" {% if customer[17] == 'Citizen' %}selected{% endif %}>Citizen</option>
+                <option value="Permanent Resident" {% if customer[17] == 'Permanent Resident' %}selected{% endif %}>Permanent Resident</option>
+                <option value="Visa Holder" {% if customer[17] == 'Visa Holder' %}selected{% endif %}>Visa Holder</option>
+                <option value="Other" {% if customer[17] == 'Other' %}selected{% endif %}>Other</option>
             </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Update Loan</button>
-        <a href="{{ url_for('view_all_loans') }}" class="btn btn-secondary">Cancel</a>
+            <br><br>
+
+            <!-- Dropdown to select the status of the customer -->
+            <label for="status">Status:</label>
+            <select id="status" name="status">
+                <option value="Active" {% if customer[18] == 'Active' %}selected{% endif %}>Active</option>
+                <option value="Inactive" {% if customer[18] == 'Inactive' %}selected{% endif %}>Inactive</option>
+            </select>
+            <br><br>
+
+            <!-- User ID field, used to link the customer to a specific user -->
+            <label for="user_ID">User ID:</label>
+            <input type="text" id="user_ID" name="user_ID" value="{{ customer[19] }}" required>
+            <br><br>
+        </fieldset>
+        <!-- Button to submit the form and update customer details -->
+        <button type="submit">Update Customer</button>
     </form>
-</div>
-{% endblock %} 
+
+    <!-- Link to navigate back to the customer search page -->
+    <a href="/search_customer">Back to Search</a>
+</body>
+</html>

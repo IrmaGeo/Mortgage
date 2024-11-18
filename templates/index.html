@@ -10,7 +10,10 @@
     <header>
         <nav>
             <ul>
+                <!-- Navigation link to the Home page -->
                 <li><a href="/">Home</a></li>
+                
+                <!-- Navigation dropdown for Customer operations -->
                 <li>
                     <a href="#">Customers</a>
                     <ul>
@@ -18,6 +21,8 @@
                         <li><a href="/search_customer">Search Customer</a></li>
                     </ul>
                 </li>
+
+                <!-- Navigation dropdown for Loan operations -->
                 <li>
                     <a href="#">Loans</a>
                     <ul>
@@ -25,7 +30,8 @@
                         <li><a href="/view_loans">Search Loan</a></li>
                     </ul>
                 </li>
-            
+                
+                <!-- Navigation dropdown for Report generation operations -->
                 <li>
                     <a href="#">Reports</a>
                     <ul>
@@ -45,6 +51,7 @@
 
     <main>
         <div class="card-container">
+            <!-- Card for managing customers -->
             <div class="card">
                 <h2>Manage Customers</h2>
                 <img src="../static/images/customer.jpeg" alt="Customers">
@@ -53,6 +60,8 @@
                     <a href="/search_customer" class="btn">View Customers</a>
                 </div>
             </div>
+
+            <!-- Card for managing loans -->
             <div class="card">
                 <h2>Loan Management</h2>
                 <img src="../static/images/loan-icon.jpeg" alt="Loans">
@@ -60,10 +69,12 @@
                 <div class="button-container">
                     <a href="/view_loans" class="btn">Explore Loans</a>
                 </div>
+            </div>
         </div>
     </main>
 
     <footer>
+        <!-- Footer content with copyright information -->
         <p>&copy; 2023 Your Mortgage System</p>
     </footer>
 </body>

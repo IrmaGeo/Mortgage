@@ -7,9 +7,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <!-- Page title -->
     <h1>Add Loan</h1>
+    
+    <!-- Link to navigate back to home page -->
     <a href="/">Back to Home</a>
 
+    <!-- Display flashed messages if available -->
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
         <ul class="flashes">
@@ -20,33 +24,42 @@
     {% endif %}
     {% endwith %}
 
+    <!-- Form to add a loan -->
     <form action="/add_loan" method="POST">
         <fieldset>
             <legend>Loan Information</legend>
+            
+            <!-- Customer ID input field -->
             <label for="customer_id">Customer ID:</label>
             <input type="text" id="customer_id" name="customer_id" required>
             <br><br>
 
+            <!-- Start Date input field -->
             <label for="start_date">Start Date:</label>
             <input type="date" id="start_date" name="start_date" required>
             <br><br>
 
+            <!-- End Date input field -->
             <label for="end_date">End Date:</label>
             <input type="date" id="end_date" name="end_date" required>
             <br><br>
 
+            <!-- Agreement Amount input field -->
             <label for="agreement_amount">Agreement Amount:</label>
             <input type="number" id="agreement_amount" name="agreement_amount" required>
             <br><br>
 
+            <!-- Withdraw Amount input field -->
             <label for="withdraw_amount">Withdraw Amount:</label>
             <input type="number" id="withdraw_amount" name="withdraw_amount" required>
             <br><br>
 
+            <!-- Interest Rate input field -->
             <label for="int_rate">Interest Rate:</label>
             <input type="number" step="0.01" id="int_rate" name="int_rate" required>
             <br><br>
 
+            <!-- Interest Rate Type dropdown -->
             <label for="int_rate_type">Interest Rate Type:</label>
             <select id="int_rate_type" name="int_rate_type">
                 <option value="Fixed">Fixed</option>
@@ -54,6 +67,7 @@
             </select>
             <br><br>
 
+            <!-- Loan Type dropdown -->
             <label for="loan_type">Loan Type:</label>
             <select id="loan_type" name="loan_type">
                 <option value="Conventional">Conventional</option>
@@ -64,14 +78,17 @@
             </select>
             <br><br>
 
+            <!-- Loan Purpose input field -->
             <label for="loan_purpose">Loan Purpose:</label>
             <input type="text" id="loan_purpose" name="loan_purpose" required>
             <br><br>
 
+            <!-- User ID input field -->
             <label for="user_id">User ID:</label>
             <input type="text" id="user_id" name="user_id" required>
             <br><br>
 
+            <!-- Loan Status dropdown -->
             <label for="status">Status:</label>
             <select id="status" name="status">
                 <option value="Active">Active</option>
@@ -82,10 +99,12 @@
             </select>
             <br><br>
 
+            <!-- Account ID input field -->
             <label for="account_id">Account ID:</label>
             <input type="text" id="account_id" name="account_id" required>
             <br><br>
 
+            <!-- Submit button to add loan -->
             <button type="submit">Add Loan</button>
         </fieldset>
     </form>

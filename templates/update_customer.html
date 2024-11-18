@@ -7,17 +7,21 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <!-- Title for the Update Customer page -->
     <h1>Update Customer</h1>
+    <!-- Link to navigate back to the home page -->
     <a href="/">Back to Home</a>
 
-
+    <!-- Form to update customer details -->
     <form action="/update_customer/{{ customer[0] }}" method="POST">
         <fieldset>
             <legend>Customer Details</legend>
+            <!-- Customer ID field, read-only for identification purposes -->
             <label for="customer_ID">Customer ID</label>
-            <input type="text" id="customer_ID" name="customer_ID" value="{{ customer[0] }}" required>
+            <input type="text" id="customer_ID" name="customer_ID" value="{{ customer[0] }}" required readonly>
             <br><br>
 
+            <!-- Input fields for customer details -->
             <label for="first_name">First Name:</label>
             <input type="text" id="first_name" name="first_name" value="{{ customer[1] }}" required>
             <br><br>
@@ -78,6 +82,7 @@
             <input type="date" id="date_of_birth" name="date_of_birth" value="{{ customer[16] }}" required>
             <br><br>
 
+            <!-- Dropdown to select the citizenship status of the customer -->
             <label for="citizen_status">Citizenship Status:</label>
             <select id="citizen_status" name="citizen_status">
                 <option value="Citizen" {% if customer[17] == 'Citizen' %}selected{% endif %}>Citizen</option>
@@ -87,6 +92,7 @@
             </select>
             <br><br>
 
+            <!-- Dropdown to select the status of the customer -->
             <label for="status">Status:</label>
             <select id="status" name="status">
                 <option value="Active" {% if customer[18] == 'Active' %}selected{% endif %}>Active</option>
@@ -94,13 +100,16 @@
             </select>
             <br><br>
 
+            <!-- User ID field, used to link the customer to a specific user -->
             <label for="user_ID">User ID:</label>
             <input type="text" id="user_ID" name="user_ID" value="{{ customer[19] }}" required>
             <br><br>
         </fieldset>
+        <!-- Button to submit the form and update customer details -->
         <button type="submit">Update Customer</button>
     </form>
 
+    <!-- Link to navigate back to the customer search page -->
     <a href="/search_customer">Back to Search</a>
 </body>
 </html>

@@ -10,8 +10,11 @@
     <header>
         <nav>
             <ul>
+                <!-- Navigation link to the Home page -->
                 <li><a href="/">Home</a></li>
+                <!-- Navigation link to the Reports overview page -->
                 <li><a href="/reports">Reports</a></li>
+                <!-- Navigation links to specific report pages -->
                 <li><a href="/percent_rank_report">Percent Rank Report</a></li>
                 <li><a href="/loan_analysis_report">Loan Analysis Report</a></li>
                 <li><a href="/top_users_report">Top Users Report</a></li>
@@ -23,15 +26,19 @@
 
     <main>
         <h1>Monthly Disbursement Report</h1>
+        
+        <!-- Check if there are any disbursements to display -->
         {% if disbursements %}
         <table>
             <thead>
                 <tr>
+                    <!-- Table headers for monthly disbursement data -->
                     <th>Disbursement Month</th>
                     <th>Total Disbursement</th>
                 </tr>
             </thead>
             <tbody>
+                <!-- Loop through the disbursements and display each one -->
                 {% for disbursement in disbursements %}
                 <tr>
                     <td>{{ disbursement[0] }}</td>
@@ -41,11 +48,13 @@
             </tbody>
         </table>
         {% else %}
+        <!-- Message to display if no disbursement data is available -->
         <p>No loan disbursement data found for the specified period.</p>
         {% endif %}
     </main>
 
     <footer>
+        <!-- Footer with copyright information -->
         <p>&copy; 2024 Your Mortgage System</p>
     </footer>
 </body>

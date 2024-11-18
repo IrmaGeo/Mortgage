@@ -10,6 +10,7 @@
     <header>
         <nav>
             <ul>
+                <!-- Navigation links to various report pages and home page -->
                 <li><a href="/">Home</a></li>
                 <li><a href="/reports">Reports</a></li>
                 <li><a href="/percent_rank_report">Percent Rank Report</a></li>
@@ -23,16 +24,20 @@
 
     <main>
         <h1>Overdue Loans Report</h1>
+        
+        <!-- Check if there are any loans to display -->
         {% if loans %}
         <table>
             <thead>
                 <tr>
+                    <!-- Table headers for overdue loan details -->
                     <th>Overdue Loan Count</th>
                     <th>Total Loan Count</th>
                     <th>Overdue Percentage (%)</th>
                 </tr>
             </thead>
             <tbody>
+                <!-- Loop through the overdue loans data and display each row -->
                 {% for loan in loans %}
                 <tr>
                     <td>{{ loan[0] }}</td>
@@ -43,11 +48,13 @@
             </tbody>
         </table>
         {% else %}
+        <!-- Message to display if no overdue loans data is available -->
         <p>No data found for overdue loans report.</p>
         {% endif %}
     </main>
 
     <footer>
+        <!-- Footer with copyright information -->
         <p>&copy; 2024 Your Mortgage System</p>
     </footer>
 </body>

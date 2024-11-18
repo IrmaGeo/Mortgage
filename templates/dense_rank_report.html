@@ -6,6 +6,7 @@
     <title>Dense Rank Report</title>
     <link rel="stylesheet" href="../static/css/style.css">
     <style>
+        /* Styling for the checkbox group to ensure a neat layout */
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
@@ -21,6 +22,7 @@
     <header>
         <nav>
             <ul>
+                <!-- Navigation links to various reports and home page -->
                 <li><a href="/">Home</a></li>
                 <li><a href="/percent_rank_report">Percent Rank Report</a></li>
                 <li><a href="/lead_report">Lead Report</a></li>
@@ -35,10 +37,12 @@
     <main>
         <h1>Dense Rank Report</h1>
 
+        <!-- Form to allow user input for ordering and partitioning criteria -->
         <form method="POST" action="/dense_rank_report">
             <fieldset>
                 <legend>Order By</legend>
                 <div class="checkbox-group">
+                    <!-- Options for ordering by different loan attributes -->
                     <label><input type="checkbox" name="order_by" value="agreement_amount" {% if 'agreement_amount' in order_by %}checked{% endif %}> Agreement Amount</label>
                     <label><input type="checkbox" name="order_by" value="withdraw_amount" {% if 'withdraw_amount' in order_by %}checked{% endif %}> Withdraw Amount</label>
                     <label><input type="checkbox" name="order_by" value="int_rate" {% if 'int_rate' in order_by %}checked{% endif %}> Interest Rate</label>
@@ -50,6 +54,7 @@
             <fieldset>
                 <legend>Partition By</legend>
                 <div class="checkbox-group">
+                    <!-- Options for partitioning by different loan attributes -->
                     <label><input type="checkbox" name="partition_by" value="loan_type" {% if 'loan_type' in partition_by %}checked{% endif %}> Loan Type</label>
                     <label><input type="checkbox" name="partition_by" value="status" {% if 'status' in partition_by %}checked{% endif %}> Status</label>
                     <label><input type="checkbox" name="partition_by" value="int_rate_type" {% if 'int_rate_type' in partition_by %}checked{% endif %}> Interest Rate Type</label>
@@ -58,10 +63,12 @@
                 </div>
             </fieldset>
 
+            <!-- Submit button to generate the Dense Rank report -->
             <button type="submit">Generate Report</button>
         </form>
 
         {% if loans %}
+        <!-- Display the loans in a table if any are returned -->
         <table>
             <thead>
                 <tr>
@@ -84,6 +91,7 @@
             <tbody>
                 {% for loan in loans %}
                 <tr>
+                    <!-- Display each attribute of the loan -->
                     <td>{{ loan[0] }}</td>
                     <td>{{ loan[1] }}</td>
                     <td>{{ loan[2] }}</td>
@@ -103,11 +111,13 @@
             </tbody>
         </table>
         {% else %}
+        <!-- Display a message if no loans are found for the report -->
         <p>No loans found for the specified DENSE_RANK calculation.</p>
         {% endif %}
     </main>
 
     <footer>
+        <!-- Footer with copyright information -->
         <p>&copy; 2024 Your Mortgage System</p>
     </footer>
 </body>

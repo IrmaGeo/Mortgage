@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
+    <!-- Header section with navigation menu -->
     <header>
         <nav>
             <ul>
@@ -22,8 +23,11 @@
     </header>
 
     <main>
+        <!-- Title for the Top Users Report page -->
         <h1>Top Users Report</h1>
+        
         {% if users %}
+        <!-- Table to display top users if data is available -->
         <table>
             <thead>
                 <tr>
@@ -32,6 +36,7 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- Loop through the users and display their User ID and Loan Count -->
                 {% for user in users %}
                 <tr>
                     <td>{{ user[0] }}</td>
@@ -41,10 +46,12 @@
             </tbody>
         </table>
         {% else %}
+        <!-- Message to display if no user data is found -->
         <p>No data found for the top users report.</p>
         {% endif %}
     </main>
 
+    <!-- Footer section -->
     <footer>
         <p>&copy; 2024 Your Mortgage System</p>
     </footer>

@@ -10,7 +10,9 @@
     <header>
         <nav>
             <ul>
+                <!-- Navigation link to the Home page -->
                 <li><a href="/">Home</a></li>
+                <!-- Navigation links to other report pages -->
                 <li><a href="/percent_rank_report">Percent Rank Report</a></li>
                 <li><a href="/lead_report">Lead Report</a></li>
                 <li><a href="/loan_analysis_report">Loan Analysis Report</a></li>
@@ -23,16 +25,20 @@
 
     <main>
         <h1>Loan Analysis Report</h1>
+        
+        <!-- Check if there are any loans to display -->
         {% if loans %}
         <table>
             <thead>
                 <tr>
+                    <!-- Table headers for loan analysis data -->
                     <th>Loan Type</th>
                     <th>Interest Range</th>
                     <th>Total Loan Amount</th>
                 </tr>
             </thead>
             <tbody>
+                <!-- Loop through the loans and display each one -->
                 {% for loan in loans %}
                 <tr>
                     <td>{{ loan[0] }}</td>
@@ -43,11 +49,13 @@
             </tbody>
         </table>
         {% else %}
+        <!-- Message to display if no loan data is available -->
         <p>No loan data found for the analysis report.</p>
         {% endif %}
     </main>
 
     <footer>
+        <!-- Footer with copyright information -->
         <p>&copy; 2024 Your Mortgage System</p>
     </footer>
 </body>
