@@ -24,8 +24,8 @@ The Mortgage Management System is a web-based application designed to manage mor
 
 1. **Clone the Repository**
    ```sh
-   git clone https://github.com/IrmaGeo/mortgage-management-system.git
-   cd mortgage-management-system
+   git clone https://github.com/IrmaGeo/Mortgage
+   cd Mortgage
    ```
 
 2. **Create a Virtual Environment**
